@@ -5,7 +5,6 @@ using UnityEngine;
 using TMPro;
 using Random = UnityEngine.Random;
 
-//I MADE THIS CHANGE
 
 //using Unity.UI;
 
