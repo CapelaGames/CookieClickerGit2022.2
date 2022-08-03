@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor.Search;
 using Random = UnityEngine.Random;
 
 
@@ -26,20 +27,119 @@ public class SpawnBall : MonoBehaviour //MonoBehaviour is for unity
     [SerializeField] private GameObject _surpriseImage;
     [SerializeField] private Vector3 _position;
     [SerializeField] private TMP_Text _text;
-
-    private int _ballCount = 0;
-    //[SerializeField] private Text text;
     
-    //int       - Whole numbers: -3,-2, -1, 0,1,2,3,4,5,6,7
-    //float     - Decimals
-    //string    - words/character/letter "2"
-    //bool      - True or False
+    private int _ballCount = 0;
+
+    //List
+    //A collection
+    //advantage: dynamic resize freely, pretty okay fast
+    //disadvantage: not as fast as arrays
+    //The count starts at 0
+    //The last element in a List is the count of the array, minus 1.
+    [SerializeField] private List<GameObject> _ballList;
+
+    //for loop
+    // for( int x = 0 ; x < y ; x++)
+    // { 
+    // }
+    private void Start()
+    {
+        _ballList = new List<GameObject>(); //initialize the list, creating the list in memory
+
+        for (int x = 0; x < 10; x++)
+        {
+            SpawnOnButton();
+        }
+
+        
+        //GameObject destoryThisBall = _ballList[2];
+        //Delete something from the array:
+       // _ballList.Remove(destoryThisBall);
+        //we can reference list's just like an array
+       // Destroy( destoryThisBall);
+        //clean up that spot
+        
+        
+        //_ballList.RemoveAt(0);
+        
+    }
+
+    public void DeleteOnButton()
+    {
+        Destroy(_ballList[0]);
+        _ballList.RemoveAt(0);
+        
+    }
+    
+    public void DeleteAllOnButton()
+    {
+        for (int x = _ballList.Count - 1; x >= 0 ; x--)
+        {
+            Destroy(_ballList[x]);
+            _ballList.RemoveAt(x);
+            
+        }
+    }
+    
+    /*
+    
+    //Array
+    //A collection
+    //advantage:     Very fast
+    //disadvantage:  Set amount of things (elements) we can store. (fixed count)
+    //The count starts at 0
+    //The last element in an array is the length (count) of the array, minus 1.
+    [SerializeField] private GameObject[] _ballArray;
+    
+    //Loops:
+    //While -  while(statement)
+    //          {
+    //              code
+    //          }
+    //       While the statement is true, keep preforming the code within the curly braces
+
+    void BeansExample()
+    {
+        int beans = 4;
+        while (beans > 0)
+        {
+            Debug.Log("I STILL HAVE BEANS");
+            beans--;
+        }
+        
+        Debug.Log("I HAVE NO BEANS");
+    }
+    
+
 
     private void Start()
     {
-        //text.text = "Hello World!";
+        //BeansExample();
+        
+        _ballArray = new GameObject[4]; //initialize the array, creating the variable in memory
+        
+        int x = 0;
+        while(x <= _ballArray.Length - 1)
+        {
+            _ballArray[x] = Instantiate(ballPrefab);
+
+            x++;
+        } 
     }
 
+    public void DeleteOnButton()
+    {
+        int x = 0;
+        while (x <= _ballArray.Length - 1)
+        {
+            GameObject destroyThis = _ballArray[x];
+            _ballArray[x] = null;
+            Destroy(destroyThis);
+            x++;
+        }
+    }
+    */
+    
     //variables store values/data
     public void SpawnOnButton() //function is called SpawnOnButton
     {
@@ -48,7 +148,8 @@ public class SpawnBall : MonoBehaviour //MonoBehaviour is for unity
         float randomX = Random.Range(-0.1f, 0.1f); //the f means float
         _position.x += randomX;
 
-        Instantiate(ballPrefab, _position, Quaternion.identity);
+        GameObject newBall = Instantiate(ballPrefab, _position, Quaternion.identity);
+        _ballList.Add(newBall);
         //ballCount += 1;
         _ballCount++; //the ++ means we will increase the number by 1
         _text.text = _ballCount.ToString();
