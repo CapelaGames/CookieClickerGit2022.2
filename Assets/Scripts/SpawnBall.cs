@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEditor.Search;
+using UnityEditor.UI;
 using Random = UnityEngine.Random;
 
 
@@ -28,7 +29,9 @@ public class SpawnBall : MonoBehaviour //MonoBehaviour is for unity
     [SerializeField] private Vector3 _position;
     [SerializeField] private TMP_Text _text;
     
-    private int _ballCount = 0;
+    public int _ballCount = 0;
+
+    public int _ClickMultiplier = 1;
 
     //List
     //A collection
@@ -87,69 +90,32 @@ public class SpawnBall : MonoBehaviour //MonoBehaviour is for unity
         _ballCount = 0;
         _text.text = _ballCount.ToString();
     }
-    
-    /*
-    
-    //Array
-    //A collection
-    //advantage:     Very fast
-    //disadvantage:  Set amount of things (elements) we can store. (fixed count)
-    //The count starts at 0
-    //The last element in an array is the length (count) of the array, minus 1.
-    [SerializeField] private GameObject[] _ballArray;
-    
-    //Loops:
-    //While -  while(statement)
-    //          {
-    //              code
-    //          }
-    //       While the statement is true, keep preforming the code within the curly braces
 
-    void BeansExample()
+    public void SpawnOnButton()
     {
-        int beans = 4;
-        while (beans > 0)
+        for (int x = 0; x < _ClickMultiplier; x++)
         {
-            Debug.Log("I STILL HAVE BEANS");
-            beans--;
-        }
-        
-        Debug.Log("I HAVE NO BEANS");
-    }
-    
-
-
-    private void Start()
-    {
-        //BeansExample();
-        
-        _ballArray = new GameObject[4]; //initialize the array, creating the variable in memory
-        
-        int x = 0;
-        while(x <= _ballArray.Length - 1)
-        {
-            _ballArray[x] = Instantiate(ballPrefab);
-
-            x++;
-        } 
-    }
-
-    public void DeleteOnButton()
-    {
-        int x = 0;
-        while (x <= _ballArray.Length - 1)
-        {
-            GameObject destroyThis = _ballArray[x];
-            _ballArray[x] = null;
-            Destroy(destroyThis);
-            x++;
+            _ballCount++; 
+            _text.text = _ballCount.ToString();
+           // InternalSpawnOnButton();
         }
     }
-    */
-    
+    public void Remove(int cost)
+    {
+        if (_ballCount < cost)
+        {
+            _ballCount -= cost;
+        }
+        else
+        {
+            _ballCount = 0;
+        }
+        _text.text = _ballCount.ToString();
+    }
     //variables store values/data
-    public void SpawnOnButton() //function is called SpawnOnButton
+    /*private void InternalSpawnOnButton() //function is called SpawnOnButton
     {
+        
         Debug.Log("We have activated the button");
         //variable we made is called randomX
         float randomX = Random.Range(-0.1f, 0.1f); //the f means float
@@ -173,9 +139,8 @@ public class SpawnBall : MonoBehaviour //MonoBehaviour is for unity
             _surpriseImage.SetActive(true); //set surprise image to active
             
         }
-        
-        
-    }
+
+    }*/
 }
 
 

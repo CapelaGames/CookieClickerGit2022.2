@@ -24,6 +24,7 @@ public class ChickenController : MonoBehaviour
     {
         bool hasMoved = false;
         string animation;
+        //resetting the values back to false
         _animator.SetBool("IsRunning", false);
         _animator.SetBool("IsWalking", false);
         if (Input.GetKey(KeyCode.LeftShift))
